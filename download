@@ -1,0 +1,164 @@
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CheckCircle, Leaf, Package } from 'lucide-react';
+
+interface Order {
+  customer: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+  };
+  items: Array<{ name: string; quantity: number; price: number }>;
+  total: number;
+  subtotal: number;
+  shipping: number;
+  paymentIntentId: string;
+}
+
+export function ThankYouPage() {
+  const navigate = useNavigate();
+  const [order, setOrder] = useState<Order | null>(null);
+
+  useEffect(() => {
+    const orderData = localStorage.getItem('currentOrder');
+    if (orderData) {
+      setOrder(JSON.parse(orderData));
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
+
+  if (!order) {
+    return null;
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-white via-emerald-50 to-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-6">
+            <CheckCircle className="w-20 h-20 text-emerald-600 animate-bounce" />
+          </div>
+
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Leaf className="w-8 h-8 text-amber-700" />
+            <h1 className="text-4xl md:text-5xl font-bold text-amber-950">
+              Thank You!
+            </h1>
+          </div>
+
+          <p className="text-2xl md:text-3xl text-stone-700 mb-2 font-semibold">
+            Thank you for your Cacaosap order!
+          </p>
+          <p className="text-xl text-stone-600 mb-8">
+            Your ritual journey begins soon.
+          </p>
+
+          <div className="inline-block bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-lg p-6 mb-12">
+            <p className="text-stone-700 mb-1">Order Confirmation #</p>
+            <p className="text-2xl font-mono font-bold text-amber-700 break-all">
+              {order.paymentIntentId.slice(0, 20).toUpperCase()}
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <div className="bg-white rounded-lg shadow-md p-8 border border-stone-100">
+            <h2 className="text-xl font-bold text-amber-950 mb-4 flex items-center gap-2">
+              <Package className="w-6 h-6" />
+              Shipping To
+            </h2>
+            <div className="space-y-2 text-stone-700">
+              <p className="font-semibold">
+                {order.customer.firstName} {order.customer.lastName}
+              </p>
+              <p>{order.customer.address}</p>
+              <p>
+                {order.customer.city}, {order.customer.state} {order.customer.zipCode}
+              </p>
+              <p className="pt-2 text-sm text-stone-600">
+                Confirmation email sent to:{' '}
+                <span className="font-semibold">{order.customer.email}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-md p-8 border border-stone-100">
+            <h2 className="text-xl font-bold text-amber-950 mb-4">Order Items</h2>
+            <div className="space-y-3">
+              {order.items.map((item, idx) => (
+                <div key={idx} className="flex justify-between text-stone-700">
+                  <span>
+                    {item.name} x{item.quantity}
+                  </span>
+                  <span className="font-semibold">${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-lg p-8 mb-12">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <p className="text-stone-600 mb-2">Subtotal</p>
+              <p className="text-2xl font-bold text-amber-950">${order.subtotal.toFixed(2)}</p>
+            </div>
+            <div>
+              <p className="text-stone-600 mb-2">Shipping</p>
+              <p className="text-2xl font-bold text-amber-950">
+                {order.shipping === 0 ? 'FREE' : `$${order.shipping.toFixed(2)}`}
+              </p>
+            </div>
+            <div>
+              <p className="text-stone-600 mb-2">Total</p>
+              <p className="text-3xl font-bold text-amber-700">${order.total.toFixed(2)}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-stone-100 rounded-lg p-8 mb-12">
+          <h3 className="text-xl font-bold text-amber-950 mb-4">What's Next?</h3>
+          <ul className="space-y-3 text-stone-700">
+            <li className="flex gap-3">
+              <span className="text-amber-600 font-bold">1.</span>
+              <span>We've sent a confirmation email with all your order details.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-amber-600 font-bold">2.</span>
+              <span>Your order will be carefully prepared and shipped within 2-3 business days.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-amber-600 font-bold">3.</span>
+              <span>You'll receive tracking information via email once your package is on its way.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="text-amber-600 font-bold">4.</span>
+              <span>Prepare your sacred space for your cacao ceremony!</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="text-center">
+          <button
+            onClick={() => navigate('/')}
+            className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 active:scale-95 text-lg"
+          >
+            Continue Shopping
+          </button>
+        </div>
+
+        <div className="mt-12 p-6 bg-amber-50 border border-amber-200 rounded-lg text-center">
+          <p className="text-stone-700 italic">
+            "May your cacao ceremony bring clarity, connection, and joy to your ritual journey."
+          </p>
+          <p className="text-amber-700 font-semibold mt-3">— The Cacaosap Team</p>
+        </div>
+      </div>
+    </div>
+  );
+}
