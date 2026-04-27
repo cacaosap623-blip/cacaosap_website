@@ -1,0 +1,410 @@
+/* ===============================
+   GLOBAL SETTINGS
+================================ */
+:root {
+  font-family: 'Montserrat', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  background-color: #242424;
+  color: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===============================
+   NAVBAR
+================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  height: 80px;
+  background-color: #3e2723;
+  position: sticky; /* better than fixed */
+  top: 0;
+  z-index: 1000;
+}
+@media (max-width: 768px) {
+  .nav-links {
+    /* Change top from 0 to 80px so it starts BELOW the navbar */
+    top: 80px !important; 
+    height: calc(100vh - 80px) !important;
+    padding-top: 20px !important; /* Gives space so 'Home' isn't squashed */
+    border-top: 1px solid #eee;
+    border-radius: 0 !important; /* Removes the rounded corner that hides icons */
+  }
+
+  /* Ensure the links inside are dark brown so they are visible */
+  .nav-links a {
+    color: #3e2723 !important;
+    display: block;
+    padding: 15px 20px;
+  }
+}
+
+/* LOGO */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  height: 50px;
+}
+
+.logo-text {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.orange-text {
+  color: #ff6d00;
+}
+
+/* ===============================
+   NAV LINKS (DESKTOP)
+================================ */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* FORCE LINKS TO BE WHITE */
+.nav-links a {
+  color: #ffffff !important; /* Forces the text to white */
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ff6d00 !important; /* Highlight orange on hover */
+}
+
+/* MAKE HAMBURGER ICON WHITE */
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: #ffffff !important; /* Makes the 3 lines white */
+  margin: 5px 0;
+}
+
+/* ENSURE LOGO TEXT IS WHITE */
+.logo-text {
+  color: #ffffff !important;
+}
+/* ===============================
+   HAMBURGER (DEFAULT: HIDDEN)
+================================ */
+.hamburger {
+  display: none;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+
+
+/* ===============================
+   MOBILE DESIGN
+================================ */
+@media (max-width: 768px) {
+
+  /* Show hamburger */
+  .hamburger {
+    display: block;
+  }
+
+  /* Slide menu */
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 260px;
+    height: 100vh;
+    background: #ffffff;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 100px 20px;
+    gap: 20px;
+    transition: right 0.3s ease;
+    z-index: 10000;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    color: #3e2723;
+    font-size: 1.1rem;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+}
+
+/* ===============================
+   CART & BUTTONS
+================================ */
+.cart-badge {
+  background: #ff6d00;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.7rem;
+  position: absolute;
+  top: -8px;
+  right: -10px;
+}
+
+.auth-btn {
+  background: #ff6d00;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* ===============================
+   CART PAGE (RESPONSIVE)
+================================ */
+.cart-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 140px 5% 60px;
+}
+
+.cart-flex-container {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+
+
+/* ===============================
+   CHECKOUT (RESPONSIVE)
+================================ */
+.checkout-page-container {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+}
+
+
+.login-section,
+.mini-summary-section {
+  width: 100%;
+  max-width: 500px;
+  position: static;
+}
+
+
+/* --- Mobile: Turn off sticky and stack vertically --- */
+@media (max-width: 900px) {
+  .cart-flex-container {
+    flex-direction: column !important; /* Forces the vertical stack */
+    padding: 0;
+  }
+
+  .order-summary-wrapper {
+    position: static !important; /* 🔥 This fixes the error you saw! */
+    width: 100% !important;
+    max-width: none;
+    margin-top: 30px;
+  }
+}
+/* --- Desktop Layout --- */
+.cart-flex-container {
+  display: flex;
+  flex-direction: row; /* Horizontal on laptops */
+  gap: 50px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cart-items-container {
+  flex: 1; /* List takes up the left side */
+}
+
+.order-summary-sidebar {
+  position: sticky;
+  top: 120px;
+  width: 380px;
+  height: fit-content;
+}
+
+/* --- Mobile Layout (The Eddusap Style) --- */
+@media (max-width: 900px) {
+  .cart-flex-container {
+    flex-direction: column !important; /* Stack vertical on phones */
+    gap: 30px;
+  }
+
+  .cart-items-container {
+    width: 100%;
+  }
+
+  .order-summary-sidebar {
+    position: static !important; /* Disables sticky for mobile */
+    width: 100% !important;     /* Makes summary full width */
+    margin-top: 20px;
+  }
+
+  /* Make sure the item cards look good on small screens */
+  .cart-items-container > div {
+    flex-direction: column; /* Stacks image/text/price on mobile */
+    text-align: center;
+    gap: 15px;
+  }
+}
+/* Removes underline from all links, including the logo */
+a, .logo-container a, .nav-links a {
+  text-decoration: none !important;
+  color: inherit; /* Keeps your original colors */
+}
+
+/* Specifically target the logo text to ensure no border/underline appears */
+.logo-text {
+  text-decoration: none;
+  border-bottom: none;
+}
+/* ===============================
+   FINAL HOME & HERO MOBILE FIX
+================================ */
+@media (max-width: 768px) {
+  /* 1. Fix the Hero Text so it fits on one screen */
+  .hero-section {
+    padding: 100px 20px 60px !important;
+    height: auto !important;
+    min-height: 80vh;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem !important; /* Smaller text for iPhone */
+    line-height: 1.2 !important;
+    white-space: normal !important; /* Allows text to wrap */
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+    width: 100% !important;
+  }
+
+  /* 2. Fix "Why CACAOSAP" (matches your Home.jsx classes) */
+  .about-preview {
+    padding: 40px 15px !important;
+  }
+
+  .about-container {
+    padding: 0 !important;
+  }
+
+  .about-content {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .about-content h2.section-title {
+    font-size: 1.8rem !important;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .about-content p {
+    font-size: 1rem !important;
+    text-align: center;
+    padding: 0 5px !important;
+    line-height: 1.5;
+  }
+
+  /* 3. Global fix to stop that "white space" on the right side */
+  .home-wrapper, section {
+    width: 100% !important;
+    overflow-x: hidden !important;
+  }
+}
+/* ===============================
+   FIX FOR SQUEEZED MOBILE TEXT
+================================ */
+@media (max-width: 768px) {
+  /* Forces the wrapper to take up the full phone width */
+  .about-container {
+    display: block !important; /* Disables flex side-by-side */
+    width: 100% !important;
+    padding: 0 20px !important;
+  }
+
+  /* Ensures the content box isn't restricted */
+  .about-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Fixes the "Why CACAOSAP?" title wrapping */
+  .section-title {
+    font-size: 1.8rem !important;
+    line-height: 1.2;
+    margin-bottom: 20px !important;
+    white-space: normal !important;
+  }
+
+  /* Forces the paragraph to use the available width */
+  .about-content p {
+    width: 100% !important;
+    font-size: 1rem !important;
+    line-height: 1.6;
+    margin: 0 0 15px 0 !important;
+  }
+}
+/* ===============================
+   MOBILE PHONE MENU COLOR FIX
+================================ */
+@media (max-width: 768px) {
+  /* This targets the links inside the sliding white menu */
+  .nav-links.active a {
+    color: #3e2723 !important; /* Dark brown text for white background */
+    display: block;
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #eee; /* Adds clean lines between links */
+  }
+
+  /* Highlight color when you press a link on your phone */
+  .nav-links.active a:active,
+  .nav-links.active a:hover {
+    color: #ff6d00 !important; /* Brand orange */
+    background-color: #f9f9f9;
+  }
+}
+@media (max-width: 768px) {
+  .about-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 20px !important;
+    text-align: center !important;
+  }
+}

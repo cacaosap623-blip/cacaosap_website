@@ -1,0 +1,783 @@
+/* ==========================================================================
+   1. GLOBAL RESET & NAVIGATION
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #fdfcfb;
+  color: #3e2723;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #3e2723; /* Matching your JS Earthy Brown */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2%; /* Reduced from 5% to give more horizontal room */
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Container for both Logo Image and "CACAOSAP" text */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between logo and text */
+  font-size: 1.5rem; /* Slightly smaller to save space */
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white; /* Changed to white for your dark background */
+  margin-left: 15px; /* Reduced from 25px to fit all links in one row */
+  font-weight: 600;
+  font-size: 0.85rem; /* Slightly smaller for better fit */
+  transition: all 0.3s;
+  white-space: nowrap; /* Prevents text from wrapping to a second line */
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: #ff6d00;
+}
+
+.nav-links a.active {
+  border-bottom: 2px solid #ff6d00;
+  padding-bottom: 5px;
+}
+.concert-hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  
+  /* --- CHANGED: Align items to the bottom half --- */
+  align-items: flex-end; 
+  justify-content: center;
+  
+  /* --- ADDED: Padding-bottom pushes content UP from the bottom slightly --- */
+  /* This prevents the cards from being hidden by the footer/screen edge */
+  padding-bottom: 15vh; 
+  
+  background-color: #000;
+  overflow: hidden;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Background Fix: Covers every inch of the screen */
+.concert-hero::before {
+  content: "";
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background-image: url('./assets/cacao-bg.jpg'); 
+  background-size: cover; /* Stretches to fill */
+  background-position: center;
+  filter: blur(5px) brightness(0.4); 
+  z-index: 1;
+}
+
+.tilted-grid {
+  display: flex;
+  gap: 15px;
+  z-index: 2;
+  align-items: center;
+}
+
+.tilted-card {
+  width: 180px;
+  height: 300px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 20px;
+  border: 4px solid white;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  cursor: pointer;
+  
+  /* PRODUCT-STYLE HOVER: Moves UP when touched */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tilted-card:hover {
+  transform: translateY(-20px); /* Lifts up like product cards */
+  box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+}
+
+/* FIX: Card Label and Sustainability Text */
+.card-label {
+  background: white;
+  padding: 8px 2px; /* Tighter padding to save space */
+  border-radius: 8px;
+  width: 100%;
+  text-align: center;
+}
+.card-label h2 {
+  font-size: 0.75rem; /* Small enough to fit the long word */
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  color: #ff6d00;
+}
+
+.hero-text {
+  color: white;
+  z-index: 2;
+  padding-left: 40px;
+  max-width: 450px;
+  text-align: left;
+  
+  /* --- ADDED: Push text down slightly to align with the cards --- */
+  margin-bottom: 20px; 
+}
+/* ==========================================================================
+   3. SHOP PAGE (PRODUCT LAYOUT & NAVBAR CLEARANCE)
+   ========================================================================== */
+.shop-container {
+  display: flex !important;
+  flex-direction: column;
+  /* Massive padding ensures top cards/titles aren't cut off by the navbar */
+  padding: 180px 5% 100px !important; 
+  background-color: #fdfcfb;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.shop-container h1 {
+  font-size: 2.8rem;
+  margin-bottom: 40px;
+  color: #3e2723;
+  font-weight: 800;
+}
+
+.product-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap; 
+  gap: 35px;
+}
+
+.item-card {
+ width: 100%;
+  max-width: 320px;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  border: 1px solid #f0f0f0;
+  transition: transform 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-10px);
+}
+
+.item-img {
+  width: 100% !important;
+  height: 220px !important;
+  display: block !important; 
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Hides all clutter text overlays inside the product image */
+.item-img p, 
+.item-img span, 
+.description-overlay {
+  display: none !important;
+}
+
+.item-details {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px; /* Forces all cards to have the same internal height */
+}
+.item-price span {
+  color: #ff6d00;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+/* ==========================================================================
+   4. RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .concert-hero { flex-direction: column; text-align: center; }
+  .hero-text { padding-left: 0; margin-top: 40px; order: 2; }
+  .tilted-grid { flex-wrap: wrap; justify-content: center; }
+  .product-grid { justify-content: center; }
+  .shop-container { padding-top: 140px !important; }
+}
+
+/* --- IMPROVED FOOTER STYLES --- */
+.footer {
+  background-color: #1a1a1a; /* Dark professional background */
+  color: white;
+  padding: 60px 5% 30px;
+  margin-top: 50px;
+  border-top: 3px solid #ff6d00; /* Subtle orange brand line */
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between; /* Pushes the 4 columns apart */
+  flex-wrap: wrap; /* Allows stacking on small mobile screens */
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.footer-social, 
+.footer-brand, 
+.footer-links, 
+.footer-support {
+  flex: 1;
+  min-width: 200px; /* Prevents columns from getting too squished */
+}
+
+.footer h3 {
+  color: #ff6d00; /* Your orange brand color */
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-logo {
+  font-size: 1.8rem;
+  color: #ff6d00;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer ul li {
+  margin-bottom: 12px;
+}
+
+.footer a {
+  color: #bbbbbb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer a:hover {
+  color: #ff6d00; /* Hover effect to match branding */
+}
+
+/* Social Icons specific styling */
+.social-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #333;
+  color: #777;
+  font-size: 0.85rem;
+}
+
+/* --- MOBILE FIX --- */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column; /* Stacks columns vertically on phones */
+    text-align: center;
+    align-items: center;
+  }
+  
+  .social-icons {
+    align-items: center;
+  }
+}
+
+/* Add this to App.css to polish the Contact section */
+.contact-container {
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 15px;
+  max-width: 600px;
+  margin: 40px auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+.contact-container h1 {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* This targets the text you type inside the boxes */
+.contact-form input, 
+.contact-form textarea {
+  color: #333 !important; /* Forces the text to be dark gray */
+  background-color: #ffffff; /* Keeps the background white */
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 16px;
+}
+
+/* This targets the "Your Name", "Your Email" hint text */
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: #888; /* Makes the placeholder a lighter gray */
+}
+
+/* Ensures the text stays dark even when you click on the box */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #ff6d00; /* Optional: adds your brand orange border on click */
+  color: #000;
+}
+.submit-btn {
+  background-color: #ff6d00;
+  color: white;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: #e65100;
+  transform: translateY(-3px);
+}
+
+.contact-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #fff; /* Clean look */
+  padding-top: 80px; /* Space for your CACAOSAP navbar */
+}
+
+/* Success Message Styling */
+.success-message {
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.success-message h1 {
+  color: #ff6d00; /* Your signature orange */
+  margin-bottom: 15px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Pushes the About Story down below the fixed Navbar */
+.about-page {
+  padding-top: 160px; 
+  padding-bottom: 80px;
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: left;
+}
+.about-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+.about-title {
+  color: #ff6d00; /* Signature CACAOSAP Orange */
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.about-subtitle {
+  font-size: 1.4rem;
+  color: #555;
+  margin-bottom: 50px;
+}
+.mission-header {
+  font-size: 2.2rem;
+  color: #222;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #ff6d00; /* Orange underline like your screenshot */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+.about-content-box h2 {
+  color: #333;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ff6d00; /* Orange accent line */
+  display: inline-block;
+}
+
+.about-content-box p {
+  line-height: 1.9;
+  color: #444;
+  font-size: 1.2rem;
+}
+.about-hero {
+  background-color: #000; /* Dark premium hero section */
+  color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.about-hero h1 {
+  color: #ff6d00;
+  font-size: 3rem;
+  margin-top: 20px;
+}
+.about-content {
+  display: flex;
+  max-width: 1200px;
+  margin: 60px auto;
+  gap: 40px;
+  padding: 0 20px;
+  align-items: center;
+}
+
+.about-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.about-products-section {
+  padding: 60px 0;
+  background-color: #f9f9f9; /* Light gray to separate story from shop */
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  color: #333;
+}
+
+.section-subtitle {
+  color: #666;
+  margin-bottom: 40px;
+}
+
+.brand-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px; /* Smooth corners for a premium feel */
+  margin: 30px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+.footer-social h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #ff6d00; /* Matching your CACAOSAP orange */
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-icons i {
+  color: #ff6d00; /* Signature CACAOSAP Orange */
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.social-icons a:hover i {
+  color: #ffffff; /* Turns white when you hover */
+}
+
+/* Success Message Animation */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success Checkmark Circle */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background-color: #4CAF50; /* Green for success */
+  color: white;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.success-message h1 {
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Ensure the text is dark so it's visible on the light background */
+.checkout-form input, 
+.checkout-form textarea {
+  color: #3e2723 !important; /* Dark brown to match your brand */
+  background-color: #ffffff !important;
+  border: 1px solid #ddd;
+}
+
+
+.hamburger div {
+  background-color: #ff6d00 !important; /* Use your bright orange color */
+  width: 30px !important;
+  height: 4px !important;
+  margin: 5px !important;
+}
+
+/* Container Spacing */
+.home-wrapper {
+  background-color: #242424; /* Keep your dark theme */
+}
+
+.hero-section {
+  padding: 100px 5%;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+/* New About Preview Styles */
+.about-preview {
+  background-color: #ffffff; /* White background to break up the dark sections */
+  color: #3e2723;
+  padding: 80px 10%;
+  text-align: center;
+}
+
+.about-content p {
+  max-width: 800px;
+  margin: 20px auto;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+/* Product Section Spacing */
+.products-preview {
+  padding: 80px 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+  color: white;
+}
+
+.explore-btn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 30px;
+  background: #ff6d00;
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Container for Cart + Hamburger on the right */
+.nav-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-cart {
+  color: white;
+  text-decoration: none;
+  font-size: 1.4rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Fix the badge so it doesn't break the layout */
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: #ff6d00;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+  border: 2px solid #3e2723; /* Matches navbar brown */
+}
+
+/* 1. The main section wrapper */
+.products-preview {
+  padding: 80px 0;
+  background-color: #242424; /* Matches your dark theme */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the Title and the Grid */
+}
+
+/* 2. The title styling */
+.section-header h2 {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 50px;
+  font-size: 2.8rem;
+  width: 100%;
+}
+
+/* 3. THE KEY FIX: Centering the Tilted Grid */
+.tilted-grid {
+  display: flex;
+  justify-content: center; /* This pushes the cards to the middle */
+  align-items: center;
+  gap: 30px; /* Space between the 4 cards */
+  flex-wrap: wrap; /* Ensures they stack on mobile instead of breaking */
+  max-width: 1200px; /* Prevents cards from spreading too far on wide screens */
+  margin: 0 auto;
+}
+.hamburger {
+  display: none;
+}
+
+  @media (max-width: 768px) {
+
+  /* Show hamburger */
+  .hamburger {
+    display: block;
+    cursor: pointer;
+  }
+
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%; /* better than fixed px */
+    max-width: 320px;
+    height: 100vh;
+    background: #ffffff;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 100px 25px;
+    gap: 18px;
+
+    transition: right 0.3s ease;
+    z-index: 1000;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #3e2723;
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+
+.product-grid {
+  justify-content: center;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+.hamburger.toggle div:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.toggle div:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.toggle div:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
